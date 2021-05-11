@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useState } from 'react';
+import Fire from './Fire';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
@@ -18,6 +19,24 @@ import { Weee } from './screens/Weee';
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [lists, setLists] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect (() => {
+    firebase = new Fire(error => {
+      if (error) return alert("Une erreur est survenue");
+
+      firebase.getLists(lists => {
+        setLists(lists);
+        setLoading(false);
+      });
+
+      return function unsubscribe () {
+        firebase.detach();
+      }
+    })
+  }, []);
+
   return (
     <View style={styles.appContainer}>
       {/* <StatusBar style="auto" /> */}
@@ -28,12 +47,13 @@ export default function App() {
         style={{ flex: 1 }}
       />
       <View style={styles.contentContainer}>
-        <NavigationContainer>
+        {/* <NavigationContainer>
           <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#FFF' }, headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Weee" component={Weee} />
           </Stack.Navigator>
-        </NavigationContainer>
+        </NavigationContainer> */}
+        <Text>{ lists }</Text>
       </View>
     </View>
   );
