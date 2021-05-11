@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState } from 'react';
-import Fire from './Fire';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
@@ -8,6 +7,7 @@ import { StyleSheet, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import { HomeScreen } from './screens/HomeScreen';
 import { Weee } from './screens/Weee';
+import { ListScreen } from './screens/ListScreen';
 
 // Header btn home, titre ('Mes Todos' par défaut), engrenage (pour params globaux)
 // Liste des todo liste (btn flottant pour ajouter une liste)
@@ -19,24 +19,6 @@ import { Weee } from './screens/Weee';
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [lists, setLists] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect (() => {
-    firebase = new Fire(error => {
-      if (error) return alert("Une erreur est survenue");
-
-      firebase.getLists(lists => {
-        setLists(lists);
-        setLoading(false);
-      });
-
-      return function unsubscribe () {
-        firebase.detach();
-      }
-    })
-  }, []);
-
   return (
     <View style={styles.appContainer}>
       {/* <StatusBar style="auto" /> */}
@@ -47,13 +29,13 @@ export default function App() {
         style={{ flex: 1 }}
       />
       <View style={styles.contentContainer}>
-        {/* <NavigationContainer>
+        <NavigationContainer>
           <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#FFF' }, headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="List" component={ListScreen} />
             <Stack.Screen name="Weee" component={Weee} />
           </Stack.Navigator>
-        </NavigationContainer> */}
-        <Text>{ lists }</Text>
+        </NavigationContainer>
       </View>
     </View>
   );

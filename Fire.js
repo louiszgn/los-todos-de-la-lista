@@ -23,40 +23,40 @@ export default class Fire {
       else firebase.auth().signInAnonymously().catch(error => { callback(error); })
     })
   }
-}
 
-get ref () {
-  return firebase.firestore().collection("lists");
-}
-
-getLists (callback) {
-  let ref = this.ref.orderBy("name");
-  this.unsubscribe = ref.onSnapshot(snapshot => {
-    let lists = [];
-    snapshot.forEach(doc => {
-      lists.push({ id: doc.id, ...doc.data() });
-    });
-    callback(lists)
-  }, function (error) {
-    console.error(error);
-  })
-}
-
-addList (list) {
-  let ref = this.ref;
-  ref.add(list);
-}
-
-deleteList (list) {
-  let ref = this.ref;
-  ref.doc(list.id).delete();
-}
-
-updateList (list) {
-  let ref = this.ref;
-  ref.doc(list.id).update(list);
-}
-
-detach () {
-  this.unsubscribe();
+  get ref () {
+    return firebase.firestore().collection("lists");
+  }
+  
+  getLists (callback) {
+    let ref = this.ref.orderBy("name");
+    this.unsubscribe = ref.onSnapshot(snapshot => {
+      let lists = [];
+      snapshot.forEach(doc => {
+        lists.push({ id: doc.id, ...doc.data() });
+      });
+      callback(lists)
+    }, function (error) {
+      console.error(error);
+    })
+  }
+  
+  addList (list) {
+    let ref = this.ref;
+    ref.add(list);
+  }
+  
+  deleteList (list) {
+    let ref = this.ref;
+    ref.doc(list.id).delete();
+  }
+  
+  updateList (list) {
+    let ref = this.ref;
+    ref.doc(list.id).update(list);
+  }
+  
+  detach () {
+    this.unsubscribe();
+  }
 }
