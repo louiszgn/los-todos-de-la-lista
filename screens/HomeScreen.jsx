@@ -33,6 +33,7 @@ export function HomeScreen ({ navigation }) {
           </ListItem>
         ))
       }
+      <Text onPress={() => navigation.navigate('Add')}>Ajouter une liste</Text>
     </View>
   );
 };
