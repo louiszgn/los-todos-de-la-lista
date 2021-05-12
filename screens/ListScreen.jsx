@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Modal, Pressable, TextInput, Button } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput, Button } from "react-native";
 import { ListItem, Icon, Divider } from 'react-native-elements';
+import { CustomModal } from '../components/CustomModal';
 import Fire from '../Fire';
 
 export function ListScreen ({ route }) {
@@ -37,34 +38,26 @@ export function ListScreen ({ route }) {
           </ListItem>
         ))
       }
-
-      <Modal
-        visible={editList}
-        transparent={true}
-        animationType="slide"
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text>Modal des paramètres de la liste</Text>
-              <TextInput
-                type="text"
-                placeholder="Nom"
-                value={name}
-                onChangeText={(value) => setName(value)}
-              />
-              <TextInput
-                type="text"
-                placeholder="Couleur"
-                value={color}
-                onChangeText={(value) => setColor(value)}
-              />
-            <Button title="Valider" onPress={() => firebase.updateList(list.id, {name: name, color: color})}/>
-            <Pressable style={styles.button} onPress={() => setEditList(!editList)}>
-              <Text style={styles.textStyle}>Close</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      
+      <CustomModal visible={editList}>
+        <Text>Modal des paramètres de la liste</Text>
+        <TextInput
+          type="text"
+          placeholder="Nom"
+          value={name}
+          onChangeText={(value) => setName(value)}
+        />
+        <TextInput
+          type="text"
+          placeholder="Couleur"
+          value={color}
+          onChangeText={(value) => setColor(value)}
+        />
+        <Button title="Valider" onPress={() => firebase.updateList(list.id, {name: name, color: color})}/>
+        <Pressable style={styles.button} onPress={() => setEditList(!editList)}>
+          <Text style={styles.textStyle}>Close</Text>
+        </Pressable>
+      </CustomModal>
     </View>
   );
 };

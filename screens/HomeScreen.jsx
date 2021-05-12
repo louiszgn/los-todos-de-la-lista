@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text } from "react-native";
 import { ListItem, Icon } from 'react-native-elements';
 import Fire from '../Fire';
-import { FAB } from '../components/FAB'
+import { FAB } from '../components/FAB';
+import { CustomModal } from '../components/CustomModal';
 
 export function HomeScreen ({ navigation }) {
   const [lists, setLists] = useState([]);
@@ -37,7 +38,11 @@ export function HomeScreen ({ navigation }) {
         ))
       }
       <Text onPress={() => navigation.navigate('Add')}>Ajouter une liste</Text>
-      <FAB backgroundColor="#f4511e" />
+      <FAB icon="add" backgroundColor="#f4511e" onPress={() => setAddList(!addList)} />
+
+      <CustomModal visible={addList}>
+        <Text>IS OK</Text>
+      </CustomModal>
     </View>
   );
 }; 
