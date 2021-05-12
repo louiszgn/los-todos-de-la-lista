@@ -2,26 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Modal, Pressable, Text } from "react-native";
 
 export function CustomModal (props) {
-  const [visibleState, setVisibleState] = useState(props);
+  // const [visibleState, setVisibleState] = useState(props);
 
-  useEffect(() => {
-    setVisibleState(props);
-  }, [props]);
-
-  // console.log(visibleState)
-  // console.log(props)
+  // useEffect(() => {
+  //   setVisibleState(props);
+  // }, [props]);
 
   return (
     <Modal
-      visible={visibleState.visible}
+      visible={props.visible}
       transparent={true}
       animationType="slide"
     >
       <View style={styles.centeredView}>
         <View style={{...styles.modalView, ...props.style}}>
-          <Pressable style={styles.button} onPress={() => setVisibleState(!visibleState.visible)}>
+          {/* <Pressable style={styles.button} onPress={() => setVisibleState(!visibleState.visible)}>
             <Text>Close</Text>
-          </Pressable>
+          </Pressable> */}
           { props.children }
         </View>
       </View>
@@ -41,7 +38,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Pressable, TextInput, Button } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { ListItem, Icon, Divider } from 'react-native-elements';
 import { CustomModal } from '../components/CustomModal';
 import Fire from '../Fire';
@@ -46,45 +46,58 @@ export function ListScreen ({ route }) {
       }
 
       <FAB icon="add" backgroundColor={list.color} onPress={() => setEditTask(!editTask)} />
+
       <CustomModal visible={editTask}>
-        <Text>Ajouter une tâche</Text>
+        <Text style={styles.modalTitle}>Ajouter une tâche</Text>
         <TextInput
           type="text"
           placeholder="Titre"
           value={title}
           onChangeText={(value) => setTitle(value)}
+          style={styles.input}
         />
         <TextInput
           type="text"
           placeholder="Terminé"
           value={completed}
           onChangeText={(value) => setCompleted(value)}
+          style={styles.input}
         />
-        <Button title="Valider" onPress={() => firebase.addTask({title: title, color: color})}/>
-        <Pressable style={styles.button} onPress={() => setEditTask(!editTask)}>
-          <Text style={styles.textStyle}>Close</Text>
-        </Pressable>
+        <View style={styles.buttonContainer}>
+          <Pressable style={[styles.button, { backgroundColor: "#e60000" }]} onPress={() => setEditTask(!editTask)}>
+            <Text style={{ color: "#FFF" }}>Annuler</Text>
+          </Pressable>
+          <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => firebase.addTask({title: title, color: color})}>
+            <Text style={{ color: "#FFF" }}>Valider</Text>
+          </Pressable>
+        </View>
       </CustomModal>
 
 
       <CustomModal visible={editList}>
-        <Text>Modal des paramètres de la liste</Text>
+        <Text style={styles.modalTitle}>Paramètres de la liste</Text>
         <TextInput
           type="text"
           placeholder="Nom"
           value={name}
           onChangeText={(value) => setName(value)}
+          style={styles.input}
         />
         <TextInput
           type="text"
           placeholder="Couleur"
           value={color}
           onChangeText={(value) => setColor(value)}
+          style={styles.input}
         />
-        <Button title="Valider" onPress={() => firebase.updateList(list.id, {name: name, color: color})}/>
-        <Pressable style={styles.button} onPress={() => setEditList(!editList)}>
-          <Text style={styles.textStyle}>Close</Text>
-        </Pressable>
+        <View style={styles.buttonContainer}>
+          <Pressable style={[styles.button, { backgroundColor: "#e60000" }]} onPress={() => setEditList(!editList)}>
+            <Text style={{ color: "#FFF" }}>Annuler</Text>
+          </Pressable>
+          <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => firebase.updateList(list.id, {name: name, color: color})}>
+            <Text style={{ color: "#FFF" }}>Valider</Text>
+          </Pressable>
+        </View>
       </CustomModal>
     </View>
   );
@@ -104,29 +117,25 @@ const styles = StyleSheet.create({
   todoItem: {
     flexDirection: 'row',
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)"
+  modalTitle: {
+    fontSize: 15,
+    fontWeight: "bold",
+    textAlign: 'center',
+    marginBottom: 10,
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
+  input: {
+    height: 35,
+    borderBottomWidth: 2,
+    borderColor: "#eee",
+    marginBottom: 10,
+  },
+  buttonContainer: {
+    width: 200,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
   button: {
-    backgroundColor: "#F194FF",
     borderRadius: 20,
     padding: 10,
     elevation: 2
