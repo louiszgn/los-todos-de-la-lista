@@ -58,7 +58,7 @@ export function HomeScreen ({ navigation }) {
           </ListItem>
         ))
       }
-      <Text onPress={() => navigation.navigate('Add')}>Ajouter une liste</Text>
+
       <FAB icon="add" backgroundColor="#f4511e" onPress={() => setAddList(!addList)} />
 
       <CustomModal visible={addList}>
