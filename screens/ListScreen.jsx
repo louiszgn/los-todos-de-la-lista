@@ -3,12 +3,18 @@ import { StyleSheet, View, Text, Pressable, TextInput, Button } from "react-nati
 import { ListItem, Icon, Divider } from 'react-native-elements';
 import { CustomModal } from '../components/CustomModal';
 import Fire from '../Fire';
+import { FAB } from '../components/FAB';
 
 export function ListScreen ({ route }) {
   const { list } = route.params;
   const [editList, setEditList] = useState(false);
+  const [editTask, setEditTask] = useState(false);
+
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
+
+  const [title, setTitle] = useState('');
+  const [completed, setCompleted] = useState('');
 
   useEffect (() => {
     firebase = new Fire(error => {
@@ -21,7 +27,7 @@ export function ListScreen ({ route }) {
   }, []);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <View style={styles.headerView}>
         <Text style={styles.headerTitle}>{ list.todos.filter(todo => todo.completed).length } / { list.todos.length }</Text>
         <Icon name="edit" type="material" color="#a9a9a9" onPress={() => setEditList(!editList)} />
@@ -38,7 +44,29 @@ export function ListScreen ({ route }) {
           </ListItem>
         ))
       }
-      
+
+      <FAB icon="add" backgroundColor={list.color} onPress={() => setEditTask(!editTask)} />
+      <CustomModal visible={editTask}>
+        <Text>Ajouter une tâche</Text>
+        <TextInput
+          type="text"
+          placeholder="Titre"
+          value={title}
+          onChangeText={(value) => setTitle(value)}
+        />
+        <TextInput
+          type="text"
+          placeholder="Terminé"
+          value={completed}
+          onChangeText={(value) => setCompleted(value)}
+        />
+        <Button title="Valider" onPress={() => firebase.addTask({title: title, color: color})}/>
+        <Pressable style={styles.button} onPress={() => setEditTask(!editTask)}>
+          <Text style={styles.textStyle}>Close</Text>
+        </Pressable>
+      </CustomModal>
+
+
       <CustomModal visible={editList}>
         <Text>Modal des paramètres de la liste</Text>
         <TextInput

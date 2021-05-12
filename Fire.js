@@ -56,9 +56,9 @@ export default class Fire {
     ref.doc(id).update(list);
   }
 
-  addTask (task) {
+  addTask (id, task) {
     let ref = this.ref;
-    ref.add(task);
+    ref.doc(id).add(task);
   }
   
   detach () {
