@@ -14,7 +14,7 @@ export function ListScreen ({ route }) {
   const [color, setColor] = useState('');
 
   const [title, setTitle] = useState('');
-  const [completed, setCompleted] = useState('');
+  // const [completed, setCompleted] = useState('');
 
   useEffect (() => {
     firebase = new Fire(error => {
@@ -25,6 +25,10 @@ export function ListScreen ({ route }) {
       }
     })
   }, []);
+
+  function idGenerator () {
+    return Math.floor((1 + Math.random()) * 0x1000000000).toString(16)
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -56,18 +60,22 @@ export function ListScreen ({ route }) {
           onChangeText={(value) => setTitle(value)}
           style={styles.input}
         />
-        <TextInput
+        {/* <TextInput
           type="text"
           placeholder="Terminé"
           value={completed}
           onChangeText={(value) => setCompleted(value)}
           style={styles.input}
-        />
+        /> */}
         <View style={styles.buttonContainer}>
           <Pressable style={[styles.button, { backgroundColor: "#e60000" }]} onPress={() => setEditTask(!editTask)}>
             <Text style={{ color: "#FFF" }}>Annuler</Text>
           </Pressable>
-          <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => firebase.addTask({title: title, color: color})}>
+          <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => {
+            firebase.addTask(list.id, {title: title, completed: false, id: idGenerator()})
+            setTitle('')
+            setEditTask(!editTask)
+          }}>
             <Text style={{ color: "#FFF" }}>Valider</Text>
           </Pressable>
         </View>
@@ -94,7 +102,12 @@ export function ListScreen ({ route }) {
           <Pressable style={[styles.button, { backgroundColor: "#e60000" }]} onPress={() => setEditList(!editList)}>
             <Text style={{ color: "#FFF" }}>Annuler</Text>
           </Pressable>
-          <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => firebase.updateList(list.id, {name: name, color: color})}>
+          <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => {
+            firebase.updateList(list.id, {name: name, color: color})
+            setName('')
+            setColor('')
+            setEditList(!editList)
+          }}>
             <Text style={{ color: "#FFF" }}>Valider</Text>
           </Pressable>
         </View>

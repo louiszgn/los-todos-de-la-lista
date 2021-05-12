@@ -21,7 +21,7 @@ export function ParamsScreen () {
       { (nbClick >= 80 && nbClick <= 90) &&
         <Text style={styles.text}>Encore là ?</Text>
       }
-      { (nbClick <= 100) &&
+      { (nbClick < 100) &&
         <Pressable style={[styles.button, { backgroundColor: "#e60000" }]} onPress={() => setNbClick(nbClick + 1)}>
           <Text style={styles.buttonText}>{ nbClick }</Text>
         </Pressable>

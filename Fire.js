@@ -40,6 +40,11 @@ export default class Fire {
       console.error(error);
     })
   }
+
+  getList (id) {
+    let ref = this.ref;
+    ref.doc(id).get();
+  }
   
   addList (list) {
     let ref = this.ref;
@@ -58,7 +63,10 @@ export default class Fire {
 
   addTask (id, task) {
     let ref = this.ref;
-    ref.doc(id).add(task);
+    // let list = this.getList(id)
+    // console.log(list)
+    // ref.doc(id).add(task);
+    // Pas forcément add mais update->todos
   }
   
   detach () {
