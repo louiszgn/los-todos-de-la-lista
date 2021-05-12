@@ -3,11 +3,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-import { Header } from 'react-native-elements';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { Header,Icon } from 'react-native-elements';
 import { HomeScreen } from './screens/HomeScreen';
-import { Weee } from './screens/Weee';
 import { ListScreen } from './screens/ListScreen';
+import { ParamsScreen } from './screens/ParamsScreen';
 
 // Header btn home, titre ('Mes Todos' par défaut), engrenage (pour params globaux)
 // Liste des todo liste (btn flottant pour ajouter une liste)
@@ -18,26 +18,34 @@ import { ListScreen } from './screens/ListScreen';
 
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function App () {
   return (
     <View style={styles.appContainer}>
-      {/* <StatusBar style="auto" /> */}
-      <Header
-        leftComponent={{ icon: 'menu', color: '#FFF' }}
-        centerComponent={{ text: 'Los todos', style: { color: '#FFF' } }}
-        rightComponent={{ icon: 'home', color: '#FFF' }}
-        style={{ flex: 1 }}
-      />
-      <View style={styles.contentContainer}>
+      <StatusBar style="auto" />
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#FFF' }, headerShown: false }}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="List" component={ListScreen} />
-            <Stack.Screen name="Weee" component={Weee} />
+          <Stack.Navigator screenOptions={({ navigation }) => ({
+            cardStyle: { backgroundColor: '#FFF' },
+            headerStyle: { backgroundColor: '#f4511e' },
+            headerTitleStyle: { fontWeight: 'bold' },
+            headerTintColor: '#fff',
+            headerRight: () => (
+              <Icon
+                onPress={() => navigation.navigate('Params')}
+                name="settings"
+                type="material"
+                color="#fff"
+              />
+            ),
+          })}>
+            <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Los todos' }} />
+            <Stack.Screen name="List" component={ListScreen} options={({ route }) => ({
+              title: route.params.list.name,
+              headerStyle: { backgroundColor: route.params.list.color }
+            })}/>
+            <Stack.Screen name="Params" component={ParamsScreen} options={{ title: 'Los parametras' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
-    </View>
   );
 }
 

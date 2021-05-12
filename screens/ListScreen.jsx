@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text } from "react-native";
-import { ListItem, Icon } from 'react-native-elements';
+import { ListItem, Icon, Divider } from 'react-native-elements';
 
-export function ListScreen ({ navigation, route }) {
+export function ListScreen ({ route }) {
   const { list } = route.params;
+  const [editList, setEditList] = useState(false);
 
   return (
     <View>
       <View style={styles.headerView}>
-        <Icon name="arrow-back-ios" type="material" color="#a9a9a9" onPress={() => navigation.goBack()} />
-        <Text style={[styles.headerTitle, { color: list.color }]}>{ list.name }</Text>
-        <Icon name="settings" type="material" color="#a9a9a9" />
+        <Text style={styles.headerTitle}>{ list.todos.filter(todo => todo.completed).length } / { list.todos.length }</Text>
+        <Icon name="edit" type="material" color="#a9a9a9" onPress={() => setEditList(!editList)} />
       </View>
+      <Divider />
       {
         list.todos.map(todo => (
           <ListItem key={todo.id} bottomDivider>
@@ -30,7 +31,7 @@ export function ListScreen ({ navigation, route }) {
 const styles = StyleSheet.create({
   headerView: {
     flexDirection: 'row',
-    paddingBottom: 10,
+    padding: 10,
   },
   headerTitle: {
     fontSize: 20,
