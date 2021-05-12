@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput, Alert } from "react-native";
 import { ListItem, Icon } from 'react-native-elements';
-import Fire from '../Fire';
-import { FAB } from '../components/FAB';
 import { CustomModal } from '../components/CustomModal';
+import { FAB } from '../components/FAB';
+import Fire from '../Fire';
 
 export function HomeScreen ({ navigation }) {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addList, setAddList] = useState(false);
+
+  const [name, setName] = useState('');
+  const [color, setColor] = useState('');
 
   useEffect (() => {
     firebase = new Fire(error => {
@@ -25,13 +28,31 @@ export function HomeScreen ({ navigation }) {
     })
   }, []);
 
+  const showAlert = (list) => {
+    Alert.alert(
+      `Supprimer ${list.name} ?`,
+      "",
+      [
+        {
+          text: "Annuler",
+          onPress: () => {  },
+        },
+        {
+          text: "Valider",
+          onPress: () => { firebase.deleteList(list.id) },
+        }
+      ]
+    )
+  };
+
   return (
     <View style={{ flex: 1 }}>
       { !loading &&
         lists.map(list => (
           <ListItem key={list.id} bottomDivider>
             <ListItem.Content style={{ flexDirection: 'row' }}>
-              <Icon onPress={() => firebase.deleteList(list.id)} name="delete" type="material" color="#a9a9a9" style={{ marginRight: 10 }}/>
+              {/* <Icon onPress={() => firebase.deleteList(list.id)} name="delete" type="material" color="#a9a9a9" style={{ marginRight: 10 }}/> */}
+              <Icon onPress={() => showAlert(list)} name="delete" type="material" color="#a9a9a9" style={{ marginRight: 10 }}/>
               <ListItem.Title style={{ color: list.color, flex: 1 }} onPress={() => navigation.navigate('List', { list: list })}>{ list.name }</ListItem.Title>
             </ListItem.Content>
           </ListItem>
@@ -42,11 +63,30 @@ export function HomeScreen ({ navigation }) {
 
       <CustomModal visible={addList}>
         <Text style={styles.modalTitle}>Ajouter une liste</Text>
+        <TextInput
+          type="text"
+          placeholder="Nom"
+          value={name}
+          onChangeText={(value) => setName(value)}
+          style={styles.input}
+        />
+        <TextInput
+          type="text"
+          placeholder="Couleur"
+          value={color}
+          onChangeText={(value) => setColor(value)}
+          style={styles.input}
+        />
         <View style={styles.buttonContainer}>
           <Pressable style={[styles.button, { backgroundColor: "#e60000" }]} onPress={() => setAddList(!addList)}>
             <Text style={{ color: "#FFF" }}>Annuler</Text>
           </Pressable>
-          <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => firebase.updateList(list.id, {name: name, color: color})}>
+          <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => {
+            firebase.addList({name: name, color: color, todos: []});
+            setName('')
+            setColor('')
+            setAddList(!addList);
+          }}>
             <Text style={{ color: "#FFF" }}>Valider</Text>
           </Pressable>
         </View>

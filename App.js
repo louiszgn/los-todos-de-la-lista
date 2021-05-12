@@ -7,7 +7,6 @@ import { StyleSheet, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { HomeScreen } from './screens/HomeScreen';
 import { ListScreen } from './screens/ListScreen';
-import { AddList } from './screens/AddList';
 import { ParamsScreen } from './screens/ParamsScreen';
 
 // Header btn home, titre ('Mes Todos' par défaut), engrenage (pour params globaux)
@@ -43,7 +42,6 @@ export default function App () {
               title: route.params.list.name,
               headerStyle: { backgroundColor: route.params.list.color }
             })}/>
-            <Stack.Screen name="Add" component={AddList} options={{ title: 'Ados la lista' }} />
             <Stack.Screen name="Params" component={ParamsScreen} options={{ title: 'Los parametras' }} />
           </Stack.Navigator>
         </NavigationContainer>

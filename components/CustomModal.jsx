@@ -12,7 +12,7 @@ export function CustomModal (props) {
     <Modal
       visible={props.visible}
       transparent={true}
-      animationType="slide"
+      animationType="fade"
     >
       <View style={styles.centeredView}>
         <View style={{...styles.modalView, ...props.style}}>

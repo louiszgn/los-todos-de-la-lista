@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { ListItem, Icon, Divider } from 'react-native-elements';
 import { CustomModal } from '../components/CustomModal';
-import Fire from '../Fire';
 import { FAB } from '../components/FAB';
+import Fire from '../Fire';
 
 export function ListScreen ({ route }) {
   const { list } = route.params;
