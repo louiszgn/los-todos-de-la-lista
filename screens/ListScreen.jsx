@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Modal, Pressable } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Modal, Pressable, TextInput, Button } from "react-native";
 import { ListItem, Icon, Divider } from 'react-native-elements';
+import Fire from '../Fire';
 
 export function ListScreen ({ route }) {
   const { list } = route.params;
   const [editList, setEditList] = useState(false);
+  const [name, setName] = useState('');
+  const [color, setColor] = useState('');
+
+  useEffect (() => {
+    firebase = new Fire(error => {
+      if (error) return alert("Une erreur est survenue");
+    
+      return function unsubscribe () {
+        firebase.detach();
+      }
+    })
+  }, []);
 
   return (
     <View>
@@ -33,6 +46,19 @@ export function ListScreen ({ route }) {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text>Modal des paramètres de la liste</Text>
+              <TextInput
+                type="text"
+                placeholder="Nom"
+                value={name}
+                onChangeText={(value) => setName(value)}
+              />
+              <TextInput
+                type="text"
+                placeholder="Couleur"
+                value={color}
+                onChangeText={(value) => setColor(value)}
+              />
+            <Button title="Valider" onPress={() => firebase.updateList(list.id, {name: name, color: color})}/>
             <Pressable style={styles.button} onPress={() => setEditList(!editList)}>
               <Text style={styles.textStyle}>Close</Text>
             </Pressable>

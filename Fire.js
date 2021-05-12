@@ -48,12 +48,17 @@ export default class Fire {
   
   deleteList (list) {
     let ref = this.ref;
-    ref.doc(list.id).delete();
+    ref.doc(list).delete();
   }
   
-  updateList (list) {
+  updateList (id, list) {
     let ref = this.ref;
-    ref.doc(list.id).update(list);
+    ref.doc(id).update(list);
+  }
+
+  addTask (task) {
+    let ref = this.ref;
+    ref.add(task);
   }
   
   detach () {

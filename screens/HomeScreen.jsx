@@ -30,7 +30,7 @@ export function HomeScreen ({ navigation }) {
         lists.map(list => (
           <ListItem key={list.id} bottomDivider>
             <ListItem.Content style={{ flexDirection: 'row' }}>
-              <Icon name="delete" type="material" color="#a9a9a9" style={{ marginRight: 10 }}/>
+              <Icon onPress={() => firebase.deleteList(list.id)} name="delete" type="material" color="#a9a9a9" style={{ marginRight: 10 }}/>
               <ListItem.Title style={{ color: list.color, flex: 1 }} onPress={() => navigation.navigate('List', { list: list })}>{ list.name }</ListItem.Title>
             </ListItem.Content>
           </ListItem>
@@ -40,4 +40,4 @@ export function HomeScreen ({ navigation }) {
       <FAB backgroundColor="#f4511e" />
     </View>
   );
-};
+}; 
