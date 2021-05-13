@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable, TextInput, Alert } from "react-native";
+import { ColorPicker } from 'react-native-color-picker'
 import { ListItem, Icon } from 'react-native-elements';
 import { CustomModal } from '../components/CustomModal';
 import { FAB } from '../components/FAB';
@@ -11,7 +12,7 @@ export function HomeScreen ({ navigation }) {
   const [addList, setAddList] = useState(false);
 
   const [name, setName] = useState('');
-  const [color, setColor] = useState('');
+  const [color, setColor] = useState('#5393ff');
 
   useEffect (() => {
     firebase = new Fire(error => {
@@ -64,7 +65,7 @@ export function HomeScreen ({ navigation }) {
 
       <FAB icon="add" backgroundColor="#5393ff" onPress={() => setAddList(!addList)} />
 
-      <CustomModal visible={addList}>
+      <CustomModal visible={addList} style={{ height: "60%"}}>
         <Text style={styles.modalTitle}>Ajouter une liste</Text>
         <TextInput
           type="text"
@@ -76,9 +77,15 @@ export function HomeScreen ({ navigation }) {
         <TextInput
           type="text"
           placeholder="Couleur"
+          editable={false}
           value={color}
           onChangeText={(value) => setColor(value)}
           style={styles.input}
+        />
+        <ColorPicker
+          defaultColor="#5393ff"
+          onColorSelected={color => setColor(color)}
+          style={{flex: 1}}
         />
         <View style={styles.buttonContainer}>
           <Pressable style={[styles.button, { backgroundColor: "#e60000" }]} onPress={() => setAddList(!addList)}>
@@ -87,7 +94,7 @@ export function HomeScreen ({ navigation }) {
           <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => {
             firebase.addList({name: name, color: color, todos: []});
             setName('')
-            setColor('')
+            setColor('#5393ff')
             setAddList(!addList);
           }}>
             <Text style={{ color: "#FFF" }}>Valider</Text>
