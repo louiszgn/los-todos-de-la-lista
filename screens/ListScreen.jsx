@@ -36,7 +36,7 @@ export function ListScreen ({ route }) {
         },
         {
           text: "Valider",
-          onPress: () => { firebase.deleteTask(listId, {id: task.id}) },
+          onPress: () => { firebase.deleteTask(listId, {id: task.id, title: task.title, completed: task.completed}) },
         }
       ]
     )
