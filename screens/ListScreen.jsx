@@ -15,6 +15,8 @@ export function ListScreen ({ route }) {
 
   const [title, setTitle] = useState('');
 
+  const [refresh, setRefresh] = useState(false);
+
   useEffect (() => {
     firebase = new Fire(error => {
       if (error) return alert("Une erreur est survenue");
@@ -36,7 +38,10 @@ export function ListScreen ({ route }) {
         },
         {
           text: "Valider",
-          onPress: () => { firebase.deleteTask(listId, {id: task.id, title: task.title, completed: task.completed}) },
+          onPress: () => {
+            firebase.deleteTask(listId, {id: task.id, title: task.title, completed: task.completed})
+            setRefresh(!refresh) // aled ???
+          },
         }
       ]
     )
