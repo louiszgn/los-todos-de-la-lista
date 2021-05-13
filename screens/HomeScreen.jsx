@@ -53,6 +53,10 @@ export function HomeScreen ({ navigation }) {
             <ListItem.Content style={{ flexDirection: 'row' }}>
               <Icon onPress={() => showAlert(list)} name="delete" type="material" color="#a9a9a9" style={{ marginRight: 10 }}/>
               <ListItem.Title style={{ color: list.color, flex: 1 }} onPress={() => navigation.navigate('List', { list: list })}>{ list.name }</ListItem.Title>
+              {
+                (list.todos.filter(todo => todo.completed).length === list.todos.length) &&
+                <Icon name="done" type="material" color="#00b300" />
+              }
             </ListItem.Content>
           </ListItem>
         ))
