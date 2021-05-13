@@ -61,14 +61,37 @@ export default class Fire {
     ref.doc(id).update(list);
   }
 
-  addTask (id, task) {
+  // Test d'ajout de tâches avec la méthode arrayUnion tranquillou
+  newTask (id, task) {
     let ref = this.ref;
-    // let list = this.getList(id)
-    // console.log(list)
-    // ref.doc(id).add(task);
-    // Pas forcément add mais update->todos
+    const newRef = ref.doc(id)
+    newRef.update({
+      todos: firebase.firestore.FieldValue.arrayUnion(task)
+  });
   }
-  
+
+  deleteTask (id, task) {
+    let ref = this.ref;
+    const newRef = ref.doc(id)
+    
+    newRef.update({
+      todos: firebase.firestore.FieldValue.arrayRemove(task)
+  });
+  }
+
+  completeTask (id, task) {
+    let ref = this.ref;
+    const newRef = ref.doc(id)
+    newRef.update({
+      todos: firebase.firestore.FieldValue.arrayUnion(task)
+  });
+  }
+
+  updateList (id, list) {
+    let ref = this.ref;
+    ref.doc(id).update(list);
+  }
+
   detach () {
     this.unsubscribe();
   }

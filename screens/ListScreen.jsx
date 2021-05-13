@@ -41,7 +41,10 @@ export function ListScreen ({ route }) {
         list.todos.map(todo => (
           <ListItem key={todo.id} bottomDivider>
             <ListItem.Content style={styles.todoItem}>
-              <ListItem.CheckBox checked={todo.completed} />
+              <ListItem.CheckBox onPress={() => {
+            firebase.deleteTask(list.id, {id: todo.id})
+          }}
+          checked={todo.completed} />
               <ListItem.Title style={{ flex: 4 }}>{ todo.title }</ListItem.Title>
               <Icon name="edit" type="material" color="#a9a9a9" />
             </ListItem.Content>
@@ -72,7 +75,7 @@ export function ListScreen ({ route }) {
             <Text style={{ color: "#FFF" }}>Annuler</Text>
           </Pressable>
           <Pressable style={[styles.button, { backgroundColor: "#00b300" }]} onPress={() => {
-            firebase.addTask(list.id, {title: title, completed: false, id: idGenerator()})
+            firebase.newTask(list.id, {title: title, completed: false, id: idGenerator()})
             setTitle('')
             setEditTask(!editTask)
           }}>
