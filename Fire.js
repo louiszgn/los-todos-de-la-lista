@@ -77,14 +77,10 @@ export default class Fire {
     newRef.update({
       todos: firebase.firestore.FieldValue.arrayRemove(task)
   });
-  }
 
-  completeTask (id, task) {
-    let ref = this.ref;
-    const newRef = ref.doc(id)
-    newRef.update({
-      todos: firebase.firestore.FieldValue.arrayUnion(task)
-  });
+    console.log(id)
+    console.log(task)
+    console.log(typeof task)
   }
 
   updateList (id, list) {

@@ -42,7 +42,7 @@ export function ListScreen ({ route }) {
           <ListItem key={todo.id} bottomDivider>
             <ListItem.Content style={styles.todoItem}>
               <ListItem.CheckBox onPress={() => {
-            firebase.deleteTask(list.id, {id: todo.id})
+            firebase.deleteTask(list.id, {id: todo.id, title: todo.title, completed: todo.completed})
           }}
           checked={todo.completed} />
               <ListItem.Title style={{ flex: 4 }}>{ todo.title }</ListItem.Title>
