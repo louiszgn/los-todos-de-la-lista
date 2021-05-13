@@ -58,7 +58,7 @@ export function HomeScreen ({ navigation }) {
         ))
       }
 
-      <FAB icon="add" backgroundColor="#f4511e" onPress={() => setAddList(!addList)} />
+      <FAB icon="add" backgroundColor="#5393ff" onPress={() => setAddList(!addList)} />
 
       <CustomModal visible={addList}>
         <Text style={styles.modalTitle}>Ajouter une liste</Text>
