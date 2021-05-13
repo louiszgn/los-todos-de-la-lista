@@ -67,7 +67,7 @@ export default class Fire {
     const newRef = ref.doc(id)
     newRef.update({
       todos: firebase.firestore.FieldValue.arrayUnion(task)
-  });
+    });
   }
 
   deleteTask (id, task) {
@@ -76,7 +76,7 @@ export default class Fire {
     
     newRef.update({
       todos: firebase.firestore.FieldValue.arrayRemove(task)
-  });
+    });
 
     console.log(id)
     console.log(task)

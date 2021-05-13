@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput, Alert } from "react-native";
 import { ListItem, Icon, Divider } from 'react-native-elements';
 import { CustomModal } from '../components/CustomModal';
 import { FAB } from '../components/FAB';
@@ -14,7 +14,6 @@ export function ListScreen ({ route }) {
   const [color, setColor] = useState('');
 
   const [title, setTitle] = useState('');
-  // const [completed, setCompleted] = useState('');
 
   useEffect (() => {
     firebase = new Fire(error => {
@@ -25,6 +24,23 @@ export function ListScreen ({ route }) {
       }
     })
   }, []);
+
+  const showAlert = (listId, task) => {
+    Alert.alert(
+      `Supprimer ${task.title} ?`,
+      "",
+      [
+        {
+          text: "Annuler",
+          onPress: () => {},
+        },
+        {
+          text: "Valider",
+          onPress: () => { firebase.deleteTask(listId, {id: task.id}) },
+        }
+      ]
+    )
+  };
 
   function idGenerator () {
     return Math.floor((1 + Math.random()) * 0x1000000000).toString(16)
@@ -41,12 +57,12 @@ export function ListScreen ({ route }) {
         list.todos.map(todo => (
           <ListItem key={todo.id} bottomDivider>
             <ListItem.Content style={styles.todoItem}>
-              <ListItem.CheckBox onPress={() => {
-            firebase.deleteTask(list.id, {id: todo.id, title: todo.title, completed: todo.completed})
-          }}
-          checked={todo.completed} />
+              <ListItem.CheckBox
+                onPress={() => {  }}
+                checked={todo.completed}
+              />
               <ListItem.Title style={{ flex: 4 }}>{ todo.title }</ListItem.Title>
-              <Icon name="edit" type="material" color="#a9a9a9" />
+              <Icon name="delete" type="material" color="#a9a9a9" onPress={() => showAlert(list.id, todo)} />
             </ListItem.Content>
           </ListItem>
         ))
@@ -63,13 +79,6 @@ export function ListScreen ({ route }) {
           onChangeText={(value) => setTitle(value)}
           style={styles.input}
         />
-        {/* <TextInput
-          type="text"
-          placeholder="Terminé"
-          value={completed}
-          onChangeText={(value) => setCompleted(value)}
-          style={styles.input}
-        /> */}
         <View style={styles.buttonContainer}>
           <Pressable style={[styles.button, { backgroundColor: "#e60000" }]} onPress={() => setEditTask(!editTask)}>
             <Text style={{ color: "#FFF" }}>Annuler</Text>
