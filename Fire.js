@@ -83,11 +83,6 @@ export default class Fire {
     console.log(typeof task)
   }
 
-  updateList (id, list) {
-    let ref = this.ref;
-    ref.doc(id).update(list);
-  }
-
   detach () {
     this.unsubscribe();
   }

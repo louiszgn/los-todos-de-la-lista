@@ -10,6 +10,8 @@ export function ListScreen ({ route }) {
   const [editList, setEditList] = useState(false);
   const [editTask, setEditTask] = useState(false);
 
+  const [tasks, setTasks] = useState(list.todos);
+
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
 
@@ -51,6 +53,7 @@ export function ListScreen ({ route }) {
     return Math.floor((1 + Math.random()) * 0x1000000000).toString(16)
   }
 
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.headerView}>
@@ -62,10 +65,14 @@ export function ListScreen ({ route }) {
         list.todos.map(todo => (
           <ListItem key={todo.id} bottomDivider>
             <ListItem.Content style={styles.todoItem}>
-              <ListItem.CheckBox
-                onPress={() => {  }}
-                checked={todo.completed}
-              />
+            <ListItem.CheckBox
+                        checked={todo.completed}
+                        onPress={() => {
+                        todo.completed = !todo.completed
+                        setTasks(tasks) 
+                        firebase.updateList(list.id, {name: list.name, color: list.color, todos: tasks})
+                        }}
+            />
               <ListItem.Title style={{ flex: 4 }}>{ todo.title }</ListItem.Title>
               <Icon name="delete" type="material" color="#a9a9a9" onPress={() => showAlert(list.id, todo)} />
             </ListItem.Content>
